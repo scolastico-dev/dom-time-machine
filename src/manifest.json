@@ -11,7 +11,6 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "dom-time-machine@scolasti.co",
-      "data_collection_permissions": false,
       "update_url": "https://github.com/scolastico-dev/dom-time-machine/releases/latest/download/dom-time-machine.xpi"
     }
   },
