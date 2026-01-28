@@ -10,8 +10,7 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "dom-time-machine@scolasti.co",
-      "update_url": "https://github.com/scolastico-dev/dom-time-machine/releases/latest/download/dom-time-machine.xpi"
+      "id": "dom-time-machine@scolasti.co"
     }
   },
   "permissions": [
@@ -37,4 +36,5 @@
       "matches": ["<all_urls>"]
     }
   ]
+
 }
