@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { width: 220px; font-family: system-ui; background: #1a1a1a; color: white; padding: 10px; }
+        button { width: 100%; padding: 8px; margin-bottom: 8px; cursor: pointer; background: #333; color: white; border: 1px solid #444; border-radius: 4px; text-align: left; }
+        button:hover { background: #444; }
+        button.active { border-color: #ff4444; color: #ff4444; }
+        .title { font-weight: bold; margin-bottom: 10px; color: #ff4444; border-bottom: 1px solid #333; padding-bottom: 5px; }
+        #fileInput { display: none; }
+    </style>
+</head>
+<body>
+    <div class="title">RECORD MODE</div>
+    <button id="btn-debounce">Debounced (Mutation)</button>
+    <button id="btn-anim">RequestAnimationFrame</button>
+    <button id="btn-paint">MozAfterPaint</button>
+    
+    <div class="title" style="margin-top: 10px;">ACTIONS</div>
+    <button id="btn-stop" style="display:none; color: #ff4444;">Stop Recording</button>
+    <button id="btn-import">Import Recording...</button>
+    <input type="file" id="fileInput" accept=".json">
+
+    <script src="popup.js"></script>
+</body>
+</html>

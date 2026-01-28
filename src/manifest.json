@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "DOM Time Machine Pro",
+  "version": "2.1",
+  "permissions": [
+    "storage",
+    "unlimitedStorage",
+    "activeTab",
+    "scripting",
+    "tabs"
+  ],
+  "action": {
+    "default_title": "DOM Time Machine",
+    "default_icon": { "32": "icons/gray.png" },
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "scripts": ["background.js"],
+    "type": "module"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["viewer.html", "viewer.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
