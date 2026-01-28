@@ -39,10 +39,29 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const fs = require('fs');
             const version = '${{ steps.get_version.outputs.version }}';
             const runId = context.runId;
             const repo = context.repo;
+
+            // Find and delete previous bot comments
+            const comments = await github.rest.issues.listComments({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+
+            const botComments = comments.data.filter(comment =>
+              comment.user.type === 'Bot' &&
+              comment.body.includes('🎉 Addon Build Complete')
+            );
+
+            for (const comment of botComments) {
+              await github.rest.issues.deleteComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: comment.id,
+              });
+            }
 
             const comment = `## 🎉 Addon Build Complete
 
