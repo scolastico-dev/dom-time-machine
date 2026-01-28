@@ -1,0 +1,69 @@
+name: Build and Comment on PR
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build-and-comment:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get version from manifest
+        id: get_version
+        run: |
+          VERSION=$(jq -r '.version' src/manifest.json)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Create addon archive
+        run: |
+          cd src
+          VERSION="${{ steps.get_version.outputs.version }}"
+          zip -r ../dom-time-machine-v${VERSION}.zip .
+          cd ..
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dom-time-machine-v${{ steps.get_version.outputs.version }}
+          path: dom-time-machine-v${{ steps.get_version.outputs.version }}.zip
+          retention-days: 30
+
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const version = '${{ steps.get_version.outputs.version }}';
+            const runId = context.runId;
+            const repo = context.repo;
+
+            const comment = `## 🎉 Addon Build Complete
+
+            The addon has been successfully built for this PR!
+
+            **Version:** \`${version}\`
+            **Build:** [#${runId}](https://github.com/${repo.owner}/${repo.repo}/actions/runs/${runId})
+
+            You can download the built addon from the artifacts section of the workflow run.
+
+            ### Installation Instructions
+            1. Download the artifact from the [workflow run](https://github.com/${repo.owner}/${repo.repo}/actions/runs/${runId})
+            2. Extract the zip file
+            3. Load the extension in your browser:
+               - **Firefox:** Navigate to \`about:debugging#/runtime/this-firefox\`, click "Load Temporary Add-on", and select the manifest.json
+               - **Chrome:** Navigate to \`chrome://extensions\`, enable "Developer mode", click "Load unpacked", and select the extracted folder
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });

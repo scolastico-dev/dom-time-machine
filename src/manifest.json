@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "DOM Time Machine Pro",
-  "version": "2.1",
+  "version": "IN-DEV",
   "permissions": [
     "storage",
     "unlimitedStorage",
