@@ -34,9 +34,12 @@ jobs:
           cd src
           VERSION="${{ steps.get_tag.outputs.version }}"
           zip -r ../dom-time-machine-v${VERSION}.zip .
+          zip -r ../dom-time-machine.xpi .
           cd ..
 
       - name: Upload release asset
         uses: softprops/action-gh-release@v2
         with:
-          files: dom-time-machine-v${{ steps.get_tag.outputs.version }}.zip
+          files: |
+            dom-time-machine-v${{ steps.get_tag.outputs.version }}.zip
+            dom-time-machine.xpi
