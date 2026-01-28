@@ -15,6 +15,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Update manifest version
+        run: |
+          jq '.version = "0.0.0"' src/manifest.json > src/manifest.json.tmp
+          mv src/manifest.json.tmp src/manifest.json
+
       - name: Get version from manifest
         id: get_version
         run: |
